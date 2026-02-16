@@ -1,0 +1,14 @@
+<div class="card p-5">
+  <h1 class="card-title" style="color: var(--margin-line);">MODIFIER LE DOSSIER</h1>
+  <%= form_tag gossip_path(@gossip), method: :patch do %>
+    <div class="mb-4">
+      <label class="form-label">TITRE :</label>
+      <input type="text" name="title" value="<%= @gossip.title %>" class="form-control" style="background:transparent; color:white; border:1px solid #444; border-radius:0;">
+    </div>
+    <div class="mb-4">
+      <label class="form-label">CONTENU :</label>
+      <textarea name="content" class="form-control" rows="10" style="background:transparent; color:white; border:1px solid #444; border-radius:0;"><%= @gossip.content %></textarea>
+    </div>
+    <button type="submit" class="btn btn-custom w-100">METTRE À JOUR</button>
+  <% end %>
+</div>

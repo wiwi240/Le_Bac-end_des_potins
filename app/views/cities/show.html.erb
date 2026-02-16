@@ -1,0 +1,26 @@
+<div class="card p-5">
+  <h1 class="card-title" style="color: var(--margin-line);">ARCHIVES : <%= @city.name.upcase %></h1>
+  <p class="small text-muted">CODE POSTAL : <%= @city.zip_code %></p>
+  
+  <hr class="my-4" style="border-color: #444;">
+
+  <div class="row">
+    <% if @gossips.any? %>
+      <% @gossips.each do |gossip| %>
+        <div class="col-md-6 mb-4">
+          <div class="card p-3" style="border-left: 3px solid var(--margin-line) !important;">
+            <h5 class="mb-2"><%= gossip.title %></h5>
+            <p class="small mb-3">Agent : <%= gossip.user.first_name %></p>
+            <%= link_to "CONSULTER", gossip_path(gossip), class: "btn btn-custom btn-sm" %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-center italic">Aucun rapport intercepté dans cette zone.</p>
+    <% end %>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to "RETOUR AU MUR", root_path, class: "btn btn-custom" %>
+  </div>
+</div>

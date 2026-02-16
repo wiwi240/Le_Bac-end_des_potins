@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Gossip Project</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+    <style>
+      :root {
+        --bg-color: #121212;
+        --paper-color: #1e1e1e;
+        --text-color: #dcdcdc;
+        --margin-line: #ff4500;
+        --row-line: #333333;
+      }
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: 'Courier New', Courier, monospace;
+      }
+      .navbar {
+        background-color: #000000 !important;
+        border-bottom: 2px solid var(--margin-line);
+      }
+      .navbar-brand, .nav-link {
+        color: var(--text-color) !important;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+      .nav-link:hover {
+        color: var(--margin-line) !important;
+      }
+      .card {
+        background-color: var(--paper-color) !important;
+        border: 1px solid #333 !important;
+        border-left: 5px solid var(--margin-line) !important;
+        border-radius: 0 !important;
+        background-image: linear-gradient(var(--row-line) 1px, transparent 1px);
+        background-size: 100% 2.5rem;
+        line-height: 2.5rem;
+        margin-bottom: 20px;
+        color: var(--text-color);
+      }
+      .btn-custom {
+        background-color: transparent;
+        border: 1px solid var(--margin-line);
+        color: var(--margin-line);
+        border-radius: 0;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        line-height: normal;
+        padding: 5px 15px;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .btn-custom:hover {
+        background-color: var(--margin-line);
+        color: #000;
+      }
+      .alert { border-radius: 0; border: none; border-left: 5px solid; }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg mb-4">
+      <div class="container">
+        <a class="navbar-brand" href="/">Gossip Project</a>
+        <div class="navbar-nav ms-auto align-items-center">
+          <a class="nav-link" href="/">Accueil</a>
+          <% if logged_in? %>
+            <a class="nav-link" href="<%= new_gossip_path %>" style="color: var(--margin-line) !important;">+ NOUVEAU</a>
+            <div class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><%= current_user.first_name %></a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><%= link_to "Profil", user_path(current_user), class: "dropdown-item" %></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><%= button_to "Déconnexion", session_path(current_user), method: :delete, class: "dropdown-item text-danger" %></li>
+              </ul>
+            </div>
+          <% else %>
+            <a class="nav-link" href="<%= new_session_path %>">CONNEXION</a>
+            <a class="nav-link" href="<%= new_user_path %>">INSCRIPTION</a>
+          <% end %>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <% flash.each do |type, message| %>
+        <div class="alert alert-<%= type %>"><%= message %></div>
+      <% end %>
+      <%= yield %>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
