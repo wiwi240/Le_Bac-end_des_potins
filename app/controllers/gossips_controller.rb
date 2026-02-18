@@ -5,7 +5,6 @@ class GossipsController < ApplicationController
 
   def show
     @gossip = Gossip.find(params[:id])
-    @comment = Comment.new
   end
 
   def new
@@ -13,33 +12,16 @@ class GossipsController < ApplicationController
   end
 
   def create
-    @gossip = Gossip.new(title: params[:title], content: params[:content], user: User.first)
+    @gossip = Gossip.new(
+      title: params[:title],
+      content: params[:content],
+      user: current_user || User.find_by(first_name: "Anonymous")
+    )
     if @gossip.save
-      flash[:success] = "Dossier créé."
+      flash[:success] = "Potin créé"
       redirect_to root_path
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
-  end
-
-  def edit
-    @gossip = Gossip.find(params[:id])
-  end
-
-  def update
-    @gossip = Gossip.find(params[:id])
-    if @gossip.update(title: params[:title], content: params[:content])
-      flash[:success] = "Dossier mis à jour."
-      redirect_to gossip_path(@gossip)
-    else
-      render :edit, status: :unprocessable_entity
-    end
-  end
-
-  def destroy
-    @gossip = Gossip.find(params[:id])
-    @gossip.destroy
-    flash[:success] = "Dossier supprimé."
-    redirect_to root_path
   end
 end

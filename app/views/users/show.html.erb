@@ -1,22 +1,21 @@
 <div class="row justify-content-center">
   <div class="col-md-6">
-    <div class="card p-4">
-      <h2 class="card-title mb-4" style="color: var(--margin-line);">FICHE INDIVIDUELLE : <%= @user.first_name %> <%= @user.last_name %></h2>
-      
-      <div style="line-height: 2.5rem;">
-        <p class="mb-0"><strong style="color: var(--margin-line);">EMAIL :</strong> <%= @user.email %></p>
-        <p class="mb-0"><strong style="color: var(--margin-line);">ÂGE :</strong> <%= @user.age %> ANS</p>
-        <p class="mb-0"><strong style="color: var(--margin-line);">LIEU :</strong> <%= @user.city.name %> (<%= @user.city.zip_code %>)</p>
+    <div class="card p-5 shadow-sm border-0">
+      <div class="text-center mb-4">
+        <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
+          <%= @user.first_name[0] %>
+        </div>
+        <h2 class="fw-bold"><%= @user.first_name %> <%= @user.last_name %></h2>
       </div>
-
-      <hr class="my-4">
       
-      <p class="mb-1"><strong style="color: var(--margin-line);">NOTES DE TERRAIN :</strong></p>
-      <p style="font-style: italic; line-height: 2rem;"><%= @user.description %></p>
-
-      <div class="mt-5 text-center">
-        <%= link_to "FERMER LE PROFIL", :back, class: "btn btn-custom w-100" %>
-      </div>
+      <p><strong>Email :</strong> <%= @user.email %></p>
+      <p><strong>Âge :</strong> <%= @user.age %> ans</p>
+      <p><strong>Bio :</strong> <%= @user.description %></p>
+      
+      <% if current_user == @user %>
+        <hr>
+        <%= link_to "Modifier mon profil", edit_user_path(@user), class: "btn btn-primary w-100" %>
+      <% end %>
     </div>
   </div>
 </div>

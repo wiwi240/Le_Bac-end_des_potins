@@ -4,20 +4,19 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:email])
-
     if user && user.authenticate(params[:password])
       log_in(user)
-      flash[:success] = "Connexion établie."
+      flash[:success] = "Connexion réussie"
       redirect_to root_path
     else
-      flash.now[:danger] = "Email ou mot de passe incorrect."
-      render :new, status: :unprocessable_entity
+      flash.now[:danger] = "Email ou mot de passe invalide"
+      render :new
     end
   end
 
   def destroy
     log_out
-    flash[:success] = "Session clôturée."
+    flash[:success] = "Déconnexion réussie"
     redirect_to root_path
   end
 end

@@ -1,38 +1,48 @@
-<div class="row justify-content-center">
-  <div class="col-md-8">
-    <div class="card p-5">
-      <h1 class="card-title mb-4" style="color: var(--margin-line);"><%= @gossip.title %></h1>
-      
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <p class="mb-0">
-          <span style="color: #888;">AUTEUR :</span> 
-          <%= link_to @gossip.user.first_name, user_path(@gossip.user), style: "color: var(--text-color); text-decoration: underline;" %>
-        </p>
-        
-        <div class="d-flex align-items-center">
-          <span class="me-3 text-danger"><%= @gossip.likes.count %> ❤️</span>
-          <% if logged_in? %>
-            <% pre_like = @gossip.likes.find { |like| like.user_id == current_user.id } %>
-            <% if pre_like %>
-              <%= button_to "RETIRER LE LIKE", gossip_like_path(@gossip, pre_like), method: :delete, class: "btn btn-custom btn-sm text-danger" %>
-            <% else %>
-              <%= button_to "AIMER", gossip_likes_path(@gossip), method: :post, class: "btn btn-custom btn-sm" %>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-
-      <div class="content mb-5" style="white-space: pre-wrap; min-height: 150px;">
-        <%= @gossip.content %>
-      </div>
-
-      <div class="d-flex gap-2 border-top pt-4" style="border-color: #444 !important;">
-        <% if logged_in? && current_user == @gossip.user %>
-          <%= link_to "MODIFIER", edit_gossip_path(@gossip), class: "btn btn-custom" %>
-          <%= button_to "SUPPRIMER", gossip_path(@gossip), method: :delete, class: "btn btn-custom text-danger" %>
-        <% end %>
-        <%= link_to "RETOUR", root_path, class: "btn btn-custom ms-auto" %>
-      </div>
+<div class="card p-4 shadow-sm border-0 mb-4">
+  <div class="d-flex justify-content-between align-items-start">
+    <div>
+      <h1 class="fw-bold"><%= @gossip.title %></h1>
+      <p class="text-muted">
+        Par : <%= link_to @gossip.user.first_name, user_path(@gossip.user), class: "fw-bold text-decoration-none" %> 
+        à <%= @gossip.user.city.name %>
+      </p>
     </div>
+    <span class="badge bg-light text-primary border"><%= @gossip.created_at.strftime("%d/%m/%Y") %></span>
   </div>
+  <p class="fs-5 mt-3"><%= @gossip.content %></p>
+</div>
+
+<div class="mt-5">
+  <h3 class="fw-bold mb-4">Commentaires (<%= @gossip.comments.count %>)</h3>
+  
+  <% @gossip.comments.each do |comment| %>
+    <div class="card p-3 mb-3 border-0 shadow-sm bg-white">
+      <div class="d-flex justify-content-between">
+        <span class="fw-bold text-primary"><%= comment.user.first_name %></span>
+        <% if current_user == comment.user %>
+          <div class="btn-group">
+            <%= link_to "Modifier", edit_gossip_comment_path(@gossip, comment), class: "btn btn-sm btn-outline-secondary" %>
+            <%= button_to "Supprimer", gossip_comment_path(@gossip, comment), method: :delete, class: "btn btn-sm btn-outline-danger" %>
+          </div>
+        <% end %>
+      </div>
+      <p class="mb-0 mt-2"><%= comment.content %></p>
+    </div>
+  <% end %>
+
+  <% if logged_in? %>
+    <div class="card p-4 border-0 shadow-sm bg-light mt-4">
+      <h5 class="fw-bold mb-3">Ajouter un commentaire</h5>
+      <%= form_tag gossip_comments_path(@gossip) do %>
+        <div class="mb-3">
+          <%= text_area_tag :content, nil, class: "form-control", rows: 3, placeholder: "Exprimez-vous..." %>
+        </div>
+        <%= submit_tag "Publier", class: "btn btn-primary px-4" %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="alert alert-info border-0 shadow-sm">
+      Vous devez <%= link_to "vous connecter", new_session_path, class: "fw-bold" %> pour participer à la conversation.
+    </div>
+  <% end %>
 </div>

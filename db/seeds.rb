@@ -1,32 +1,49 @@
 require 'faker'
 
-# On vide la base avant de remplir pour éviter les doublons
-City.destroy_all
-User.destroy_all
+# Active le français pour Faker
+Faker::Config.locale = 'fr'
+
+# Nettoyage total
+Comment.destroy_all
 Gossip.destroy_all
+User.destroy_all
+City.destroy_all
 
-# Création de 10 villes
-10.times { City.create!(name: Faker::Address.city, zip_code: Faker::Address.zip_code) }
+# 1. Création des villes françaises
+10.times do
+  City.create!(
+    name: Faker::Address.city,
+    zip_code: Faker::Address.zip_code
+  )
+end
 
-# Création de 10 utilisateurs
+# 2. Création des utilisateurs
 10.times do
   User.create!(
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
-    description: Faker::Lorem.sentence,
-    email: Faker::Internet.email,
+    description: Faker::Lorem.sentence(word_count: 10),
+    email: Faker::Internet.unique.email,
     age: rand(18..80),
-    city: City.all.sample
+    password: "password123",
+    city: City.all.sample # Sélectionne une ville au hasard
   )
 end
 
-# Création de 20 potins liés aux utilisateurs
+# 3. Création des potins
 20.times do
   Gossip.create!(
-    title: Faker::Book.title,
-    content: Faker::Lorem.paragraph(sentence_count: 5),
+    title: Faker::Lorem.sentence(word_count: 3).first(14), # Limite à 14 caractères pour la validation
+    content: Faker::Lorem.paragraph(sentence_count: 2),
     user: User.all.sample
   )
 end
 
-puts "Seed terminé : Base prête à l'emploi !"
+# 4. Création des commentaires
+50.times do
+  Comment.create!(
+    content: Faker::Lorem.sentence(word_count: 8),
+    user: User.all.sample,
+    gossip: Gossip.all.sample
+  )
+end

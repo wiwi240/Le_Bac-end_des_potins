@@ -16,8 +16,9 @@ body {
 /* Aspect bloc-notes pour les cartes */
 .card {
   background-color: var(--paper-color) !important;
-  border: 1px solid #333 !important;
-  border-left: 5px solid var(--margin-line) !important; /* Ligne de marge */
+  border: 1px solid #050505 !important;
+  border-left: 5px solid var(--margin-line) !important;
+  /* Ligne de marge */
   border-radius: 0 !important;
   background-image: linear-gradient(var(--row-line) 1px, transparent 1px);
   background-size: 100% 2rem;
@@ -25,16 +26,33 @@ body {
   padding-left: 10px;
 }
 
-.card-title {
-  color: #ffffff;
-  font-weight: bold;
-  text-transform: uppercase;
-  border-bottom: 1px dashed #555;
+/* Force le texte des cartes en blanc */
+.card,
+.card-body,
+.card-title,
+.card-text,
+.card-header,
+.card-footer {
+  color: #ffffff !important;
 }
+
+/* Si Daryl est un lien (link_to), force la couleur blanche aussi */
+.card a {
+  color: #ffffff !important;
+  text-decoration: underline;
+}
+
+/* Optionnel : Une couleur différente pour faire ressortir le nom de l'auteur */
+.gossip-author {
+  color: var(--margin-line) !important;
+  /* Utilise ton orange vif */
+  font-weight: bold;
+}
+
 
 /* Header et Navigation */
 .navbar {
-  background-color: #000000 !important;
+  background-color: #df6704 !important;
   border-bottom: 1px solid var(--margin-line);
 }
 
@@ -56,5 +74,9 @@ body {
 
 .btn-primary:hover {
   background-color: var(--text-color) !important;
-  color: #000 !important;
+  color: #e7e7e7 !important;
+}
+
+.background {
+  color: rgb(10, 123, 228);
 }

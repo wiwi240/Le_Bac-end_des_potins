@@ -1,15 +1,14 @@
 Rails.application.routes.draw do
-  root 'gossips#index'
-  
+  get "users/show"
+  get "users/edit"
+  root 'static_pages#home'
   resources :gossips do
-    resources :likes, only: [:create, :destroy]
+    resources :comments
   end
-  
-  resources :users, only: [:show, :new, :create]
-  resources :cities, only: [:show]
-  resources :comments, only: [:create, :destroy]
+  # On ajoute edit et update pour le profil
+  resources :users, only: [:show, :edit, :update, :new, :create]
   resources :sessions, only: [:new, :create, :destroy]
   
-  get '/team', to: 'pages#team'
-  get '/contact', to: 'pages#contact'
+  get '/team', to: 'static_pages#team'
+  get '/contact', to: 'static_pages#contact'
 end

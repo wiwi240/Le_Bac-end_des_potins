@@ -65,3 +65,4 @@ end
 gem 'faker'
 
 gem "bcrypt"
+gem "table_print"
