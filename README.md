@@ -1,28 +1,77 @@
-# README
+# The Gossip Project
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A simple Ruby on Rails application for creating and sharing short messages ("gossips"), with users, tags, comments, likes, and cities. This repository contains the application code used in a Fullstack training exercise.
 
-Things you may want to cover:
+**Status:** Prototype / learning project
 
-* Ruby version
+**Tech stack:**
+- **Rails:** ~> 8.0.4
+- **Database:** SQLite3 (default for development)
+- **Web server:** Puma
+- **JavaScript:** Importmap, Turbo, Stimulus
 
-* System dependencies
+**Main features**
+- User signup, login and authentication
+- Create, edit and delete gossips
+- Tagging system for gossips
+- Comments on gossips
+- Likes for gossips
+- City association for users
 
-* Configuration
+**Prerequisites**
+- Ruby (compatible with the Rails version in `Gemfile`)
+- Bundler
+- SQLite3 (for local development)
+- Node.js / npm is not required when using importmap, but useful for asset tooling if you add it
 
-* Database creation
+**Quick setup (development)**
 
-* Database initialization
+1. Clone the repository:
 
-* How to run the test suite
+	```bash
+	git clone <repository-url>
+	cd the_gossip_project
+	```
 
-* Services (job queues, cache servers, search engines, etc.)
+2. Install gems:
 
-* Deployment instructions
+	```bash
+	bundle install
+	```
 
-* ...
+3. Set up the database:
 
+	```bash
+	rails db:create db:migrate db:seed
+	```
 
-****comande respawn server :
-fuser -k 3000/tcp; rm -f tmp/pids/server.pid; bin/rails server
+4. Start the Rails server:
+
+	```bash
+	rails server
+	```
+
+5. Visit the app at `http://localhost:3000`.
+
+**Running tests**
+
+```bash
+rails test
+``` 
+
+**Common commands**
+- Run migrations: `rails db:migrate`
+- Open Rails console: `bin/rails console`
+
+**Docker**
+This project includes a `Dockerfile` and can be containerized. Adjust and use your preferred Docker workflow or the provided scripts if present.
+
+**Contributing**
+This repository is a learning project. Feel free to open issues or submit pull requests with improvements or fixes.
+
+**License**
+This project does not include a license file. Add a license if you plan to publish or share the code publicly.
+
+---
+
+For more details about the application structure, see the `app/`, `config/`, and `db/` directories.
